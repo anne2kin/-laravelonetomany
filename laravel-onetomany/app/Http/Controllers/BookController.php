@@ -7,28 +7,31 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
-    {
-        $books = Book::all();
-        return response()->json(['books' => $books]);
-    }
-
     public function store(Request $request)
     {
-        return Book::create($request->all());
+        $bookData = $request->only('student_id', 'title');
+        $book = Book::create($bookData);
+
+        return response()->json($book, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Book $book)
     {
-        $book = Book::find($id);
-        $book->update($request->all());
-        return response()->json(['book' => $book]);
+        $bookData = $request->only('student_id', 'title');
+        $book->update($bookData);
+
+        return response()->json($book, 200);
     }
 
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        $book = Book::find($id);
         $book->delete();
-        return response()->json(['message' => "successfully deleted the data"]);
+
+        return response()->json(null, 204);
+    }
+
+    public function index()
+    {
+        return Book::all();
     }
 }
