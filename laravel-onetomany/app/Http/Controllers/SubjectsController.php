@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectsController extends Controller
@@ -13,7 +14,7 @@ class SubjectsController extends Controller
      */
     public function index()
     {
-        //
+        return Subject::all();
     }
 
     /**
@@ -24,7 +25,10 @@ class SubjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subjectData = $request->only('code', 'title');
+        $subject = Subject::create($subjectData);
+
+        return response()->json($subject, 201);
     }
 
     /**
@@ -45,9 +49,12 @@ class SubjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Subject $subject)
     {
-        //
+        $subjectData = $request->only('code', 'title');
+        $subject->update($subjectData);
+
+        return response()->json($subject, 200);
     }
 
     /**
@@ -56,8 +63,9 @@ class SubjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Subject $subject)
     {
-        //
+        $subject -> delete();
+        return response()->json(null, 204);
     }
 }

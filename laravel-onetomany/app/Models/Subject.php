@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    protected $fillable = ['code', 'title'];
+    protected $fillable = [
+        'code',
+        'title'
+    ];
+
+    use HasFactory;
 
     public function student()
     {
