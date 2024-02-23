@@ -16,7 +16,7 @@ class AuthorController extends Controller
     {
         $author = Author::create($request->all());
         if ($request->has('books')) {
-            $author->books()->createMany($request->indput('books'));
+            $author->books()->createMany($request->input('books'));
         }
         return response()->json(['author' => $author]);
     }
