@@ -25,10 +25,14 @@ class SubjectsController extends Controller
      */
     public function store(Request $request)
     {
-        $subjectData = $request->only('code', 'title');
-        $subject = Subject::create($subjectData);
+        $validatedData = $request->validate([
+            'code' => 'required|max:255',
+            'title' => 'required|max:255',
+            'student_id' => "required|exists:students,id"
+        ]);
 
-        return response()->json($subject, 201);
+        $student = Subject::create($validatedData);
+        return response()->json($student, 201); // 201 Created status
     }
 
     /**
